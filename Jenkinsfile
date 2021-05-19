@@ -1,14 +1,18 @@
-node {
-  checkout scm
-  environment {
-        PATH = "$PATH:/usr/local/bin/docker-compose"
-    }
-
-        stage("Building") {
-          echo "$PATH"
-                sh "docker-compose up"
-                echo "CREATED"
-     
+pipeline {
+    agent none
+    stages {
+        stage('Example Build') {
+            agent { docker 'redis:latest' } 
+            agent { docker 'mongo:latest' } 
+            steps {
+                echo 'Hello, Maven'
+            }
         }
-    
+        stage('Example Test') {
+            agent { label 'new' } 
+            steps {
+                echo 'Hello, JDK'
+            }
+        }
+    }
 }
