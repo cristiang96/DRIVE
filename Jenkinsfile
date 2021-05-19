@@ -55,9 +55,9 @@ pipeline {
                     // SonarQube Server name = sonarqube-automation
                     withSonarQubeEnv('sonarqube-automation') {
                     // Set parameters to the sonar-scanner binary and run it
-                        sh "${scannerHome}/bin/sonar-scanner
+                        sh """${scannerHome}/bin/sonar-scanner
                         -Dsonar.projectName=$PROJECT_PREFIX -Dsonar.projectKey=$PROJECT_PREFIX
-                        -Dsonar.sources=."
+                        -Dsonar.sources=."""
                     }
             }
         }
