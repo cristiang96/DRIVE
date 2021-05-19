@@ -1,5 +1,5 @@
 pipeline {
-  agent {node { label 'test-ci' } }
+  agent any
     stages {
         stage("Building") {
             steps {
