@@ -5,6 +5,7 @@ node {
     }
 
         stage("Building") {
+          echo "$PATH"
                 sh "docker-compose up"
                 echo "CREATED"
      
