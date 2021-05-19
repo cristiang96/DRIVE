@@ -5,7 +5,8 @@ pipeline {
             steps {
                 sh """
                 // docker build -t test_test_test .
-                docker-compose up
+                sudo docker-compose build"
+                sudo docker-compose up -d"
                 """
                 echo 'Hello, Maven'
             }
