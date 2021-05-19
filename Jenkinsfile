@@ -1,7 +1,12 @@
 pipeline {
     agent {label 'agent-eg'}
     stages {
-        stage('Example Build') {
+        stage("Prepare") {
+            steps {
+                bitbucketStatusNotify buildState: "INPROGRESS"
+            }
+        }
+        stage('Building') {
             steps {
                 // sh 'docker build -t test_test_test .'
                 sh """
@@ -17,4 +22,14 @@ pipeline {
             }
         }
     }
+      post {
+      always {
+          sh "docker-compose down || true"
+      }
+      success {
+          bitbucketStatusNotify buildState: "SUCCESSFUL"
+      }
+      failure {
+          bitbucketStatusNotify buildState: "FAILED"
+      }
 }
