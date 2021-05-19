@@ -10,8 +10,8 @@ pipeline {
         PACKAGE_MONGO = "mongodb"
         PACKAGE_REDIS = "redis-server"
     }
-    /*
-    stages {
+    
+    stages {/*
         stage("Prepare Environment") {
             steps {
                 sh """sudo apt-get update
@@ -59,7 +59,8 @@ pipeline {
                         -Dsonar.projectName=$PROJECT_PREFIX -Dsonar.projectKey=$PROJECT_PREFIX
                         -Dsonar.sources=."""
                     }
-            }
+                }
+             }
         }
         /*
         stage("Building with Docker") {
