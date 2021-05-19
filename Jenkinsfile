@@ -3,8 +3,8 @@ pipeline {
     stages {
         stage('Example Build') {
             steps {
+                // sh 'docker build -t test_test_test .'
                 sh """
-                // docker build -t test_test_test .
                 sudo docker-compose build"
                 sudo docker-compose up -d"
                 """
