@@ -1,8 +1,8 @@
-pipeline {
+node {
+  checkout scm
   environment {
         PATH = "$PATH:/usr/local/bin/docker-compose"
     }
-  agent any
     stages {
         stage("Building") {
             steps {
