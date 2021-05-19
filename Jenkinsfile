@@ -1,5 +1,11 @@
 pipeline {
     agent {label 'agent-eg'}
+    environment {
+        BUILD_NUMBER = "0.9"
+        PROJECT_PREFIX = "TASK-SCHED"
+        PROJECT_IMAGE = "${env.PROJECT_PREFIX}:${env.BUILD_NUMBER}"
+        PROJECT_CONTAINER = "${env.PROJECT_PREFIX}-${env.BUILD_NUMBER}"
+    }
     stages {
        
         stage('Building') {
