@@ -1,15 +1,15 @@
 pipeline {
-    agent none
+    agent any
     stages {
         stage('Example Build') {
-            agent { docker 'redis:latest' } 
-            agent { docker 'mongo:latest' } 
             steps {
+                sh """
+                docker build -t test_test_test .
+                """
                 echo 'Hello, Maven'
             }
         }
         stage('Example Test') {
-            agent { label 'new' } 
             steps {
                 echo 'Hello, JDK'
             }
