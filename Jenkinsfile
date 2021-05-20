@@ -7,6 +7,7 @@ pipeline {
         PROJECT_PREFIX = "TASK-SCHED"
         PROJECT_IMAGE = "${env.PROJECT_PREFIX}:${env.BUILD_NUMBER}"
         PROJECT_CONTAINER = "${env.PROJECT_PREFIX}-${env.BUILD_NUMBER}"
+        IMAGE_NAME = "testing123"
         PACKAGE_MONGO = "mongodb"
         PACKAGE_REDIS = "redis-server"
         NEXUS_IP_PORT = "http://10.28.108.180:8123"
@@ -77,7 +78,7 @@ pipeline {
         stage('Promote Image') {
             environment{
                 //NEXUS_CREDS = credentials('nexus_eg_credentials')
-                dockerImage="${env.PROJECT_CONTAINER}"
+                dockerImage="${env.IMAGE_NAME}"
                 registryUri="${env.NEXUS_IP_PORT}"
             }
             steps{
