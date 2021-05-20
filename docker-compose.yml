@@ -2,7 +2,7 @@ services:
   app:
     build: .
     container_name: APP_${PROJECT_CONTAINER}
-    image: ${IMAGE_NAME}
+    image: ${IMAGE_NAME}:0.1
     command: python -u app.py
 
     volumes:
