@@ -91,7 +91,7 @@ pipeline {
                       
                       sh """
                         docker login -u $USERNAME -p $PASSWORD \${NEXUS_IP_PORT}
-                        docker tag APP_\${PROJECT_CONTAINER}:\${BUILD_NUMBER} \${NEXUS_IP_PORT}/app:latest
+                        docker tag \${IMAGE_NAME}:\${BUILD_NUMBER} \${NEXUS_IP_PORT}/app:latest
                         docker push \${NEXUS_IP_PORT}/app:latest
                       """
                     }
