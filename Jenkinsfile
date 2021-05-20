@@ -76,41 +76,25 @@ pipeline {
         }
         
         stage('Promote Image') {
-            environment{
-                //NEXUS_CREDS = credentials('nexus_eg_credentials')
-                dockerImage="${env.IMAGE_NAME}"
-                registryUri="${env.NEXUS_IP_PORT}"
-            }
             steps{
                 script {
-                    withCredentials([usernamePassword(
-                      credentialsId: 'nexus_eg_credentials',
-                      usernameVariable: 'USERNAME',
-                      passwordVariable: 'PASSWORD'
-                    )]) {
-                      
-                      sh """
-                        docker login -u $USERNAME -p $PASSWORD \${NEXUS_IP_PORT}
-                        docker tag \${IMAGE_NAME}:\${BUILD_NUMBER} \${NEXUS_IP_PORT}/app:latest
-                        docker push \${NEXUS_IP_PORT}/app:latest
-                      """
+                        withCredentials([usernamePassword(
+                          credentialsId: 'nexus_eg_credentials',
+                          usernameVariable: 'USERNAME',
+                          passwordVariable: 'PASSWORD'
+                        )]) {
+
+                          sh """
+                            docker login -u $USERNAME -p $PASSWORD \${NEXUS_IP_PORT}
+                            docker tag \${IMAGE_NAME}:\${BUILD_NUMBER} \${NEXUS_IP_PORT}/app:latest
+                            docker push \${NEXUS_IP_PORT}/app:latest
+                          """
+                        }
                     }
-                  //docker.withRegistry(registryUri, 'nexus_eg_credentials') {
-                  //  dockerImage.push()
-                  //}
                 }
-          }
-            /*steps {
-                sh """
-                docker login -u $NEXUS_CREDS_USR -p $NEXUS_CREDS_PSW
-                docker tag APP_\${PROJECT_CONTAINER}:\${BUILD_NUMBER} \${NEXUS_IP_PORT}/app:latest
-                docker push \${NEXUS_IP_PORT}/app:latest
-                """
-            }*/
-        }
+            }
     
     }
-    
     post {
         always {
             echo "DONE!!!"
