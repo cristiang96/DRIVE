@@ -83,9 +83,21 @@ pipeline {
             }
             steps{
                 script {
-                  docker.withRegistry(registryUri, 'nexus_eg_credentials') {
-                    dockerImage.push()
-                  }
+                    withCredentials([usernamePassword(
+                      credentialsId: 'nexus_eg_credentials',
+                      usernameVariable: 'USERNAME',
+                      passwordVariable: 'PASSWORD'
+                    )]) {
+                      
+                      sh """
+                        docker login -u $USERNAME -p $PASSWORD \${NEXUS_IP_PORT}
+                        docker tag APP_\${PROJECT_CONTAINER}:\${BUILD_NUMBER} \${NEXUS_IP_PORT}/app:latest
+                        docker push \${NEXUS_IP_PORT}/app:latest
+                      """
+                    }
+                  //docker.withRegistry(registryUri, 'nexus_eg_credentials') {
+                  //  dockerImage.push()
+                  //}
                 }
           }
             /*steps {
