@@ -3,12 +3,13 @@ pipeline {
     agent {label 'agent-eg'}
     
     environment {
-        BUILD_NUMBER = "0.9"
+        BUILD_NUMBER = "0.1"
         PROJECT_PREFIX = "TASK-SCHED"
         PROJECT_IMAGE = "${env.PROJECT_PREFIX}:${env.BUILD_NUMBER}"
         PROJECT_CONTAINER = "${env.PROJECT_PREFIX}-${env.BUILD_NUMBER}"
         PACKAGE_MONGO = "mongodb"
         PACKAGE_REDIS = "redis-server"
+        NEXUS_IP_PORT = "10.28.108.180:8123"
     }
     
     stages {/*
@@ -74,8 +75,15 @@ pipeline {
         }
         */
         stage('Promote Image') {
+            environment{
+                NEXUS_CREDS = credentials('nexus_eg_credentials')
+            }
             steps {
-                echo 'Here will be NEXUS...'
+                sh """
+                docker login -u $NEXUS_CREDS_USR -p $NEXUS_CREDS_PSW
+                docker tag APP_\${PROJECT_CONTAINER}:\${BUILD_NUMBER} \${NEXUS_IP_PORT}/app:latest
+                docker push \${NEXUS_IP_PORT}/app:latest
+                """
             }
         }
     
