@@ -10,7 +10,7 @@ pipeline {
         IMAGE_NAME = "testing123"
         PACKAGE_MONGO = "mongodb"
         PACKAGE_REDIS = "redis-server"
-        NEXUS_IP_PORT = "http://10.28.108.180:8123"
+        NEXUS_IP_PORT = "10.28.108.180:8123"
     }
     
     stages {/*
