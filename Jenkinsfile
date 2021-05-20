@@ -9,7 +9,7 @@ pipeline {
         PROJECT_CONTAINER = "${env.PROJECT_PREFIX}-${env.BUILD_NUMBER}"
         PACKAGE_MONGO = "mongodb"
         PACKAGE_REDIS = "redis-server"
-        NEXUS_IP_PORT = "10.28.108.180:8123"
+        NEXUS_IP_PORT = "http://10.28.108.180:8123"
     }
     
     stages {/*
@@ -46,7 +46,7 @@ pipeline {
                       tox -vvv """
             }
         }
-        */
+        
         stage('Static code analysis') {
             steps {
                 script {
@@ -64,7 +64,7 @@ pipeline {
                 }
              }
         }
-        /*
+        */
         stage("Building with Docker") {
             steps {
                 // sh 'docker build -t test_test_test .'
@@ -73,18 +73,27 @@ pipeline {
                 // sh "docker-compose up -d"
             }
         }
-        */
+        
         stage('Promote Image') {
             environment{
-                NEXUS_CREDS = credentials('nexus_eg_credentials')
+                //NEXUS_CREDS = credentials('nexus_eg_credentials')
+                dockerImage="${env.PROJECT_CONTAINER}"
+                registryUri="${env.NEXUS_IP_PORT}"
             }
-            steps {
+            steps{
+                script {
+                  docker.withRegistry(registryUri, 'nexus_eg_credentials') {
+                    dockerImage.push()
+                  }
+                }
+          }
+            /*steps {
                 sh """
                 docker login -u $NEXUS_CREDS_USR -p $NEXUS_CREDS_PSW
                 docker tag APP_\${PROJECT_CONTAINER}:\${BUILD_NUMBER} \${NEXUS_IP_PORT}/app:latest
                 docker push \${NEXUS_IP_PORT}/app:latest
                 """
-            }
+            }*/
         }
     
     }
