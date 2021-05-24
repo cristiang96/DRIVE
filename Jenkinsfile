@@ -13,7 +13,7 @@ pipeline {
         NEXUS_IP_PORT = "10.28.108.180:8123"
     }
     
-    stages {/*
+    stages {
         stage("Prepare Environment") {
             steps {
                 sh """sudo apt-get update
@@ -47,7 +47,7 @@ pipeline {
                       tox -vvv """
             }
         }
-        
+        /*
         stage('Static code analysis') {
             steps {
                 script {
@@ -65,7 +65,7 @@ pipeline {
                 }
              }
         }
-        */
+        
         stage("Building with Docker") {
             steps {
                 // sh 'docker build -t test_test_test .'
@@ -93,7 +93,7 @@ pipeline {
                     }
                 }
             }
-    
+    */
     }
     post {
         always {
