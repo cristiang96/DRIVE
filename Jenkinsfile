@@ -3,7 +3,7 @@ pipeline {
     agent {label 'agent-eg'}
     
     environment {
-        BUILD_NUMBER = "0.1"
+        BUILD_NUMBER = "0.3"
         PROJECT_PREFIX = "TASK-SCHED"
         PROJECT_IMAGE = "${env.PROJECT_PREFIX}:${env.BUILD_NUMBER}"
         PROJECT_CONTAINER = "${env.PROJECT_PREFIX}-${env.BUILD_NUMBER}"
